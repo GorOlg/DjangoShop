@@ -1,0 +1,17 @@
+{% extends 'formshop/base_x.html' %}
+
+{% block title_game %} {% endblock %}
+
+
+{% block game_name %}
+
+<h2>Загрузите изображение</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Загрузить</button>
+</form>
+
+{% endblock %}
+
+

@@ -1,0 +1,18 @@
+{% extends 'formshop/base_x.html' %}
+
+{% block title_game %} Добро пожаловать в игры!{% endblock %}
+
+
+{% block game_name %}
+
+    {% if answer %}
+        {{ answer }}
+    {% else %}
+    <form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Добавить">
+    </form>
+    {% endif %}
+
+{% endblock %}

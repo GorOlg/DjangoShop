@@ -1,0 +1,17 @@
+{% extends 'shopapp/base.html' %}
+
+{% block title %}Подтвердите удаление продукта{% endblock %}
+
+{% block content %}
+<h2>Вы хотите удалить этот продукт: "{{ product.name }}"?</h2>
+ <form method="post">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form>
+{% endblock %}
+
+
+
+
+
+
