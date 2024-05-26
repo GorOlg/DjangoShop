@@ -13,9 +13,22 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+import os
+
 SECRET_KEY = 'django-insecure-i$9$z1mlac0+sa2bs2=xxa_zoe#-@erk@5-ykj#%z=ap3v7^r)'
-DEBUG = True
-ALLOWED_HOSTS = ['*']
+
+DEBUG = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+ALLOWED_HOSTS = ['OlegGorbunov.pythonanywhere.com',
+                 ]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -27,9 +40,11 @@ INSTALLED_APPS = [
     'shopapp',
     'online',
     'formshop',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -42,7 +57,9 @@ ROOT_URLCONF = 'djangoShop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -55,12 +72,21 @@ TEMPLATES = [
     },
 ]
 WSGI_APPLICATION = 'djangoShop.wsgi.application'
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'OlegGorbunov$default',
+        'USER': 'OlegGorbunov',
+        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
+        'HOST': 'OlegGorbunov.mysql.pythonanywhere-services.com',
+        'OPTIONS': {
+            'init_command': "SET NAMES 'utf8mb4'; SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+        },
     }
 }
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -81,9 +107,10 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static/'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGGING = {
